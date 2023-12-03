@@ -6,22 +6,26 @@ using UnityEngine;
 
 public class FPSCounter : MonoBehaviour
 {
-    private float fps;
-    public TextMeshProUGUI fpsText;
+    private float count;
 
-    // Start is called before the first frame update
-    void Start()
+    private IEnumerator Start()
     {
-        Application.targetFrameRate = 60;
-        CalculateFps();
+        GUI.depth = 2;
+        while (true)
+        {
+            count = 1f / Time.unscaledDeltaTime;
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
-    async void CalculateFps()
+    private void OnGUI()
     {
-        fps = (int)(1f / Time.unscaledDeltaTime);
-        fpsText.text = "FPS :" + fps;
-        await UniTask.Delay(1000);
-        CalculateFps();
-    } 
-   
+        Rect location = new Rect(5, 5, 85, 25);
+        string text = $"FPS: {Mathf.Round(count)}";
+        Texture black = Texture2D.linearGrayTexture;
+        GUI.DrawTexture(location, black, ScaleMode.StretchToFill);
+        GUI.color = Color.black;
+        GUI.skin.label.fontSize = 18;
+        GUI.Label(location, text);
+    }
 }
