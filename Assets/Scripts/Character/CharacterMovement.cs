@@ -8,14 +8,15 @@ public class CharacterMovement : MonoBehaviour
     public float rotationSpeed = 2f;
     public LayerMask ground;
     Terrain terrain;
-    void Update()
+
+    private void Awake()
     {
         terrain = Terrain.activeTerrain;
+    }
+    void Update()
+    {
         HandleMovement();
         SurfaceAllignment();
-    }
-    private void LateUpdate()
-    {
         HandleRotation();
     }
 
@@ -23,7 +24,6 @@ public class CharacterMovement : MonoBehaviour
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-
         Vector3 movement = new Vector3(horizontal, 0f, vertical) * movementSpeed * Time.deltaTime;
         transform.Translate(movement);
         var terrainPosition = terrain.SampleHeight(transform.position);
