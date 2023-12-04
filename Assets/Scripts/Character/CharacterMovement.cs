@@ -7,11 +7,11 @@ public class CharacterMovement : MonoBehaviour
     public float movementSpeed = 5f;
     public float rotationSpeed = 2f;
     public LayerMask ground;
-    Terrain terrain;
+    Terrain _terrain;
 
     private void Awake()
     {
-        terrain = Terrain.activeTerrain;
+        _terrain = Terrain.activeTerrain;
     }
     void Update()
     {
@@ -26,7 +26,7 @@ public class CharacterMovement : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
         Vector3 movement = new Vector3(horizontal, 0f, vertical) * movementSpeed * Time.deltaTime;
         transform.Translate(movement);
-        var terrainPosition = terrain.SampleHeight(transform.position);
+        var terrainPosition = _terrain.SampleHeight(transform.position);
         transform.position = new Vector3(transform.position.x, terrainPosition + 1, transform.position.z);
     }
 
@@ -47,10 +47,8 @@ public class CharacterMovement : MonoBehaviour
             Quaternion groundRotation = Quaternion.FromToRotation(Vector3.up, info.normal);
             Quaternion yRotation = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
 
-            // Combine the ground normal rotation with the character's y-axis rotation
             Quaternion finalRotation = groundRotation * yRotation;
 
-            // Smoothly interpolate the rotation
             RotationRef = Quaternion.Lerp(transform.rotation, finalRotation, Time.deltaTime);
             transform.rotation = RotationRef;
         }

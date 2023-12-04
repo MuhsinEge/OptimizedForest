@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Data;
-public class TerrainVisibilityModel
+public class TerrainVisibilityController
 {
     private Transform _player;
     private int _gridSize;
@@ -15,7 +15,7 @@ public class TerrainVisibilityModel
     public EventHandler<List<TerrainObjectData>> _makeGridUnvisibleEvent;
     public EventHandler<List<TerrainObjectData>> _makeGridVisibleEvent;
 
-    public TerrainVisibilityModel(Transform player,TerrainAttributes terrainAttributes)
+    public TerrainVisibilityController(Transform player,TerrainAttributes terrainAttributes)
     {
         _player = player;
         _gridSize = terrainAttributes.gridSize;
@@ -39,9 +39,7 @@ public class TerrainVisibilityModel
             for (int j = 0; j <= terrainLenght; j++)
             {
                 var randomType = UnityEngine.Random.Range(0, 1000);
-                var posXZ = new Vector2(i, j);
-                var objAbsPos = new Vector3(posXZ.x, 1, posXZ.y);
-                var posXYZ = new Vector3(posXZ.x, terrain.SampleHeight(new Vector3(posXZ.x, 1, posXZ.y)) + 0.2f, posXZ.y);
+                var posXYZ = new Vector3(i, terrain.SampleHeight(new Vector3(i, 1, j)) + 0.2f, j);
 
                 var newTerrainObject = new TerrainObjectData()
                 {
@@ -49,7 +47,7 @@ public class TerrainVisibilityModel
                     type = randomType <= terrainAttributes.treeDensity ? TerrainObjectType.Tree : randomType <= terrainAttributes.treeDensity + terrainAttributes.rockDensity ? TerrainObjectType.Rock : TerrainObjectType.Grass
                 };
                 terrainObjects.Add(newTerrainObject);
-                _terrainObjectGrids[(Mathf.FloorToInt(objAbsPos.x /_gridSize), Mathf.FloorToInt(objAbsPos.z / _gridSize))].Add(newTerrainObject);
+                _terrainObjectGrids[(Mathf.FloorToInt(posXYZ.x /_gridSize), Mathf.FloorToInt(posXYZ.z / _gridSize))].Add(newTerrainObject);
             }
         }
     }

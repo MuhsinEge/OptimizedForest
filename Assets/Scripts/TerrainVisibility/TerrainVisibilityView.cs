@@ -17,7 +17,7 @@ public class TerrainVisibilityView : MonoBehaviour
     private GameObject RockPoolParent;
     private GameObject GrassPoolParent;
 
-    private TerrainVisibilityModel _terrainData;
+    private TerrainVisibilityController _terrainData;
     private PoolService _poolService;
 
     void Awake()
@@ -27,7 +27,7 @@ public class TerrainVisibilityView : MonoBehaviour
         RockPoolParent = new GameObject("RockPoolparent");
         _poolService = Locator.Instance.Get<PoolService>(); 
 
-        _terrainData = new TerrainVisibilityModel(
+        _terrainData = new TerrainVisibilityController(
             player,
             terrainAttributes);
         _terrainData._makeGridVisibleEvent += MakeGridVisible;
