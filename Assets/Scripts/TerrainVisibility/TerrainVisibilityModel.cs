@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Assets.Scripts.Data;
-public class TerrainVisibilityController
+public class TerrainVisibilityModel
 {
     private Transform _player;
     private int _gridSize;
@@ -15,7 +15,7 @@ public class TerrainVisibilityController
     public EventHandler<List<TerrainObjectData>> _makeGridUnvisibleEvent;
     public EventHandler<List<TerrainObjectData>> _makeGridVisibleEvent;
 
-    public TerrainVisibilityController(Transform player,TerrainAttributes terrainAttributes)
+    public TerrainVisibilityModel(Transform player,TerrainAttributes terrainAttributes)
     {
         _player = player;
         _gridSize = terrainAttributes.gridSize;
